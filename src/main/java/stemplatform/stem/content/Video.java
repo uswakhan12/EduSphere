@@ -1,9 +1,12 @@
 package stemplatform.stem.content;
 
-import stemplatform.stem.streaming.Streamable;
 import stemplatform.stem.users.Creator;
 
-public class Video extends Content implements Streamable {
+import java.io.Serializable;
+
+public class Video extends Content implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final String filePath;
     private final int duration;
@@ -26,7 +29,9 @@ public class Video extends Content implements Streamable {
         );
 
         if (filePath == null || filePath.isBlank()) {
-            throw new IllegalArgumentException("File path cannot be empty.");
+            throw new IllegalArgumentException(
+                    "File path cannot be empty."
+            );
         }
 
         if (duration <= 0) {
@@ -37,32 +42,6 @@ public class Video extends Content implements Streamable {
 
         this.filePath = filePath;
         this.duration = duration;
-    }
-
-    @Override
-    public void play() {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void stop() {
-    }
-
-    @Override
-    public void seek(int position) {
-        if (position < 0 || position > duration) {
-            throw new IllegalArgumentException(
-                    "Position must be between 0 and video duration."
-            );
-        }
-
     }
 
     public String getFilePath() {
