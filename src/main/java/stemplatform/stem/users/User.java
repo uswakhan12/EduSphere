@@ -51,4 +51,8 @@ public abstract class User implements Serializable {
     public boolean isBanned() {
         return banned;
     }
+
+    public String getPassword(){
+        return password;
+    }
 }
