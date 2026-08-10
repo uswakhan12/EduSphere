@@ -98,6 +98,30 @@ public abstract class Content implements Serializable {
         return subject;
     }
 
+    public void setTitle(String title) {
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("Title cannot be empty.");
+        }
+
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        if (description == null || description.isBlank()) {
+            throw new IllegalArgumentException("Description cannot be empty.");
+        }
+
+        this.description = description;
+    }
+
+    public void setSubject(String subject) {
+        if (subject == null || subject.isBlank()) {
+            throw new IllegalArgumentException("Subject cannot be empty.");
+        }
+
+        this.subject = subject;
+    }
+
     public LocalDate getUploadDate() {
         return uploadDate;
     }

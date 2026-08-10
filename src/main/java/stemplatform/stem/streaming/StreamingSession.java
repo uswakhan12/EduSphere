@@ -35,7 +35,7 @@ public class StreamingSession implements Streamable {
 
 
     @Override
-    public void play() {
+    public void start() {
 
         if (status.equals("PLAYING")) {
             return;

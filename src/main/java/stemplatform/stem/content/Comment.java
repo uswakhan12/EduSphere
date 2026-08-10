@@ -2,9 +2,12 @@ package stemplatform.stem.content;
 
 import stemplatform.stem.users.User;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Comment {
+public class Comment implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final String commentId;
     private final User author;

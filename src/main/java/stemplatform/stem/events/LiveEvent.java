@@ -3,6 +3,8 @@ package stemplatform.stem.events;
 import stemplatform.stem.users.Creator;
 import stemplatform.stem.users.Viewer;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -16,7 +18,7 @@ public class LiveEvent implements Serializable{
     private final LocalDateTime startTime;
     private final int maximumViewers;
 
-    private transient final Set<Viewer> currentViewers;
+    private transient Set<Viewer> currentViewers;
     private final Creator host;
 
     public LiveEvent(
@@ -120,5 +122,20 @@ public class LiveEvent implements Serializable{
 
     public synchronized int getCurrentViewerCount() {
         return currentViewers.size();
+    }
+
+    /*
+     * currentViewers is transient because it is live runtime state,
+     * not something that should be persisted. Since transient fields
+     * come back as null after deserialization, we reinitialize it
+     * here so a reloaded event starts with nobody attending instead
+     * of throwing a NullPointerException the first time join()/leave()
+     * is called.
+     */
+    private void readObject(ObjectInputStream input)
+            throws IOException, ClassNotFoundException {
+
+        input.defaultReadObject();
+        currentViewers = new HashSet<>();
     }
 }

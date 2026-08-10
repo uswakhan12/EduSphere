@@ -2,7 +2,7 @@ package stemplatform.stem.streaming;
 
 public interface Streamable {
 
-    void play();
+    void start();
 
     void pause();
 
