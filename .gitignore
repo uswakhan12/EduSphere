@@ -1,7 +1,11 @@
+### Build output ###
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+### App runtime data (do not commit — regenerated on first run) ###
+data/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -36,3 +40,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Logs ###
+*.log
+hs_err_pid*
