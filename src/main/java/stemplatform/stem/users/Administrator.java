@@ -2,6 +2,7 @@ package stemplatform.stem.users;
 
 import stemplatform.stem.content.Comment;
 import stemplatform.stem.content.Content;
+import stemplatform.stem.management.ContentManager;
 
 public class Administrator extends User {
 
@@ -34,18 +35,30 @@ public class Administrator extends User {
         System.out.println("Viewing content: " + content.getTitle());
     }
 
-    public void removeContent(Content content) {
+    public void removeContent(ContentManager contentManager, Content content) {
+        if (contentManager == null) {
+            throw new IllegalArgumentException("Content manager cannot be null.");
+        }
+
         if (content == null) {
             throw new IllegalArgumentException("Content cannot be null.");
         }
 
+        contentManager.removeContent(content);
+
         System.out.println("Content removed: " + content.getTitle());
     }
 
-    public void removeComment(Comment comment) {
+    public void removeComment(Content content, Comment comment) {
+        if (content == null) {
+            throw new IllegalArgumentException("Content cannot be null.");
+        }
+
         if (comment == null) {
             throw new IllegalArgumentException("Comment cannot be null.");
         }
+
+        content.removeComment(comment);
 
         System.out.println("Comment removed.");
     }

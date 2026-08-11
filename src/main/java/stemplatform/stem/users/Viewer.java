@@ -1,10 +1,12 @@
 package stemplatform.stem.users;
 
+import stemplatform.stem.content.Comment;
 import stemplatform.stem.content.Content;
 import stemplatform.stem.content.Video;
 import stemplatform.stem.events.LiveEvent;
 import stemplatform.stem.library.Library;
 import stemplatform.stem.notifications.Notification;
+import stemplatform.stem.streaming.StreamingSession;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -38,12 +40,6 @@ public class Viewer extends User implements Serializable {
         if (creator == null) {
             throw new IllegalArgumentException(
                     "Creator cannot be null."
-            );
-        }
-
-        if (creator == this) {
-            throw new IllegalArgumentException(
-                    "A viewer cannot subscribe to themselves."
             );
         }
 
@@ -104,8 +100,8 @@ public class Viewer extends User implements Serializable {
 
         Comment comment = new Comment(
                 generateCommentId(),
-                text,
-                this
+                this,
+                text
         );
 
         content.addComment(comment);
@@ -157,7 +153,7 @@ public class Viewer extends User implements Serializable {
     }
 
 
-    public void watch(Video video) {
+    public StreamingSession watch(Video video) {
 
         if (video == null) {
             throw new IllegalArgumentException(
@@ -165,11 +161,13 @@ public class Viewer extends User implements Serializable {
             );
         }
 
-        // Increase the content's view count.
-        video.incrementViewCount();
+        StreamingSession session = new StreamingSession(this, video);
 
-        // Add the video to this viewer's history.
-        library.addToHistory(video);
+        // Starting the session records the view and adds the video
+        // to this viewer's history (handled inside StreamingSession).
+        session.start();
+
+        return session;
     }
 
     public void receiveNotification(Notification notification) {
